@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests;
+
 use Zend\Feed\Reader\Http\ClientInterface;
 use App\Http\RssClient;
 
