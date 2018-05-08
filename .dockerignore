@@ -1,0 +1,10 @@
+.git/
+**/*.gitkeep
+**/*.gitignore
+readme.md
+/vendor/
+/storage/logs/*.log
+bootstrap/cache/*
+docker-compose.yml
+.env
+.env.example

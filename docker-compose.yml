@@ -1,0 +1,34 @@
+version: '3'
+volumes:
+  vendor:
+  storage_views:
+  storage_cache:
+  db_data_mysql:
+services:
+  app:
+    container_name: restful-rss-app
+    image: restful-rss/app
+    build:
+        context: ./
+    volumes:
+      - ./:/app
+      - vendor:/app/vendor
+      - storage_views:/app/storage/framework/views
+      - storage_cache:/app/storage/framework/cache
+    depends_on:
+      - mysql
+  mysql:
+    container_name: restful-rss-mysql
+    image: mysql:5.7
+    volumes:
+      - db_data_mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=api
+      - MYSQL_USER=rss
+      - MYSQL_PASSWORD=secret
+    ports:
+      - 3306:3306
+networks:
+  rss-api-network:
+    driver: bridge
