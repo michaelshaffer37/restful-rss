@@ -16,3 +16,10 @@ $router->get('/', ['uses' => 'IndexController@index']);
 $router->get('hello', ['uses' => 'IndexController@hello']);
 
 $router->get('rss-test', ['uses' => 'RssController@rssTest']);
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->group(['prefix' => 'rss', 'namespace' => 'Rss'], function () use ($router) {
+        $router->post('feed', ['uses' => 'FeedController@storeFeed']);
+        $router->get('feed/{feed}', ['uses' => 'FeedController@getFeed']);
+    });
+});
