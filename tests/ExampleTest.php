@@ -3,6 +3,11 @@
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
+/**
+ * Class ExampleTest
+ *
+ * A Set of initial example tests to be run on the app.
+ */
 class ExampleTest extends TestCase
 {
     /**
@@ -19,6 +24,11 @@ class ExampleTest extends TestCase
         );
     }
 
+    /**
+     * Simple Functional Test
+     *
+     * @return void
+     */
     public function testHelloWorld()
     {
         $this->get('/hello');
@@ -28,6 +38,11 @@ class ExampleTest extends TestCase
         );
     }
 
+    /**
+     * Simple Test of POC RSS Parsing End-point
+     *
+     * @return void
+     */
     public function testRssDefault() {
         $this->get('/rss-test');
 
@@ -38,6 +53,11 @@ class ExampleTest extends TestCase
         );
     }
 
+    /**
+     * Simple test of POS RSS Parsing end-point, passing a url
+     *
+     * @return void
+     */
     public function testRssTest() {
         $this->get('/rss-test?url=https://abcnews.go.com/abcnews/topstories');
 

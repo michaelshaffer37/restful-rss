@@ -14,7 +14,7 @@ use Zend\Feed\Reader\Http\Psr7ResponseDecorator;
  *
  * @package App\Http
  */
-class GuzzleClient implements FeedReaderHttpClientInterface
+class RssClient implements FeedReaderHttpClientInterface
 {
     /**
      * @var GuzzleClientInterface
@@ -34,6 +34,7 @@ class GuzzleClient implements FeedReaderHttpClientInterface
      */
     public function get($uri)
     {
+        // Return a PSR-7 Decorated Response
         return new Psr7ResponseDecorator(
             $this->client->request('GET', $uri)
         );
