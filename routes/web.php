@@ -14,3 +14,15 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/hello', function () {
+    return "Hello World!";
+});
+
+$router->get('/rss-test', function (\Illuminate\Http\Request $request) {
+    \Zend\Feed\Reader\Reader::setHttpClient(new \App\Http\GuzzleClient());
+
+   $channel = \Zend\Feed\Reader\Reader::import($request->get('url', 'https://www.nasa.gov/rss/dyn/breaking_news.rss'));
+
+    return join(', ', array_filter([$channel->getTitle(), $channel->getLink(), $channel->getDescription()]));
+});
