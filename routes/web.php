@@ -11,17 +11,8 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->get('/', ['uses' => 'IndexController@index']);
 
-$router->get('/hello', function () {
-    return "Hello World!";
-});
+$router->get('hello', ['uses' => 'IndexController@hello']);
 
-$router->get('rss-test', ['uses' => 'RssController@getRss']);
-
-   $channel = \Zend\Feed\Reader\Reader::import($request->get('url', 'https://www.nasa.gov/rss/dyn/breaking_news.rss'));
-
-    return join(', ', array_filter([$channel->getTitle(), $channel->getLink(), $channel->getDescription()]));
-});
+$router->get('rss-test', ['uses' => 'RssController@rssTest']);

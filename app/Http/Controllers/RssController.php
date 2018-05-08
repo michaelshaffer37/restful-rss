@@ -8,7 +8,7 @@ use App\Http\GuzzleClient;
 
 class RssController extends Controller
 {
-    public function getRss(Request $request)
+    public function rssTest(Request $request)
     {
         Reader::setHttpClient(new GuzzleClient());
 
