@@ -19,8 +19,7 @@ $router->get('/hello', function () {
     return "Hello World!";
 });
 
-$router->get('/rss-test', function (\Illuminate\Http\Request $request) {
-    \Zend\Feed\Reader\Reader::setHttpClient(new \App\Http\GuzzleClient());
+$router->get('rss-test', ['uses' => 'RssController@getRss']);
 
    $channel = \Zend\Feed\Reader\Reader::import($request->get('url', 'https://www.nasa.gov/rss/dyn/breaking_news.rss'));
 
