@@ -13,5 +13,4 @@ class IndexController extends Controller
     {
         return 'Hello World!';
     }
-
 }

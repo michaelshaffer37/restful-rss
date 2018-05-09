@@ -1,10 +1,16 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Unit\Http;
 
-use Zend\Feed\Reader\Http\ClientInterface;
 use App\Http\RssClient;
+use App\Tests\TestCase;
+use Zend\Feed\Reader\Http\ClientInterface;
 
+/**
+ * Class GuzzleClientTest
+ *
+ * @package App\Tests\Unit
+ */
 class GuzzleClientTest extends TestCase
 {
     /**

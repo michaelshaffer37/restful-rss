@@ -23,6 +23,9 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+$app->configure('app');
+$app->configure('mongo');
+
 // $app->withFacades();
 
 // $app->withEloquent();
@@ -79,8 +82,7 @@ $app->singleton(
 */
 
  $app->register(App\Providers\RssClientServiceProvider::class);
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+ $app->register(App\Providers\MongoClientServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
