@@ -11,9 +11,16 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Http\Resources\Feed::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        '_id' => Ramsey\Uuid\Uuid::uuid4(),
+        'name' => $faker->words(2, true),
+        'feed' => $faker->url,
+        'title' => $faker->title,
+        'description' => $faker->sentence,
+        'author' => [
+            'name' => "$faker->firstName, $faker->lastName",
+            'username' => $faker->userName,
+        ],
     ];
 });
