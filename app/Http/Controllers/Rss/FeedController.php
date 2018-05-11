@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Rss;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
 use Illuminate\Http\Request;
-use MongoDB\Client;
-use Ramsey\Uuid\Uuid;
 use Zend\Feed\Reader\Reader;
 
 /**
@@ -21,24 +20,43 @@ class FeedController extends Controller
      *
      * @return string
      */
-    public function storeFeed(Request $request)
+    public function store(Request $request)
     {
-        $ns = Uuid::uuid5(Uuid::NAMESPACE_DNS, 'restful_rss.com');
         $channel = Reader::import($request->get('feed'));
-        $id = (string)Uuid::uuid5($ns, $request->get('feed'));
 
-        $feed = new Feed([
-            '_id' => $id,
-            'name' => $request->get('name'),
-            'feed' => $channel->getLink(),
-            'title' => $channel->getTitle(),
-            'description' => $channel->getDescription(),
-            'author' => $channel->getAuthor(),
-        ]);
+        $channel->getId();
+        $feed = Feed::updateOrCreate(
+            ['feed' => $channel->getLink()],
+            [
+                'name' => $request->get('name'),
+                'link' => $channel->getFeedLink(),
+                'title' => $channel->getTitle(),
+                'description' => $channel->getDescription(),
+                'properties' => [
+                    'author' => $channel->getAuthors(),
+                    'identifier' => $channel->getId(),
+                    'language' => $channel->getLanguage(),
+                    'copyright' => $channel->getCopyright(),
+                    'created' => $channel->getDateCreated(),
+                    'modified' => $channel->getDateModified(),
+                ]
+            ]
+        );
 
-        $feed->save();
+        foreach ($channel as $entry) {
+            Entry::updateOrCreate(
+                ['link' => $entry->getLink()],
+                [
+                    'title' => $entry->getTitle(),
+                    'description' => $entry->getDescription(),
+                    'dateModified' => $entry->getDateModified(),
+                    'authors' => $entry->getAuthor(),
+                    'content' => $entry->getContent(),
+                ]
+            );
+        }
 
-        return $feed->toJson();
+        return $feed;
     }
 
     /**
@@ -46,10 +64,13 @@ class FeedController extends Controller
      *
      * @return string
      */
-    public function getFeed($feed)
+    public function get($feed)
     {
-        $feedRecord = (new Feed())->find($feed);
+        return Feed::findOrFail($feed);
+    }
 
-        return $feedRecord->toJson();
+    public function all()
+    {
+        return Feed::all();
     }
 }

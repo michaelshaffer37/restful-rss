@@ -18,8 +18,12 @@ $router->get('hello', ['uses' => 'IndexController@hello']);
 $router->get('rss-test', ['uses' => 'RssController@rssTest']);
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->group(['prefix' => 'rss', 'namespace' => 'Rss'], function () use ($router) {
-        $router->post('feed', ['uses' => 'FeedController@storeFeed']);
-        $router->get('feed/{feed}', ['uses' => 'FeedController@getFeed']);
+    $router->group(['namespace' => 'Rss'], function () use ($router) {
+        $router->get('feeds', ['uses' => 'FeedController@all']);
+        $router->post('feed', ['uses' => 'FeedController@store']);
+        $router->get('feed/{id}', ['as' => 'feed', 'uses' => 'FeedController@get']);
+
+        $router->get('entries', ['uses' => 'EntryController@all']);
+        $router->get('entry/{id}', ['as' => 'entry', 'uses' => 'EntryController@get']);
     });
 });

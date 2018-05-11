@@ -23,12 +23,30 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+/*
+|--------------------------------------------------------------------------
+| Load Configurations into App Config
+|--------------------------------------------------------------------------
+|
+| Here we will load the configuration objects from the config files found
+| in the config directory so that they are available to the app.
+|
+*/
 $app->configure('app');
-$app->configure('mongo');
+$app->configure('database');
 
-// $app->withFacades();
-
-// $app->withEloquent();
+/*
+|--------------------------------------------------------------------------
+| Register MonboDb ODM
+|--------------------------------------------------------------------------
+|
+| Now we will register the MongoDb ODM that matched the Laravel Eloquent
+| Model Interface.  This will allow for easy queries and stable integration
+| with the Lumen Framework.
+|
+*/
+$app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -64,10 +82,6 @@ $app->singleton(
 
 // $app->middleware([
 //    App\Http\Middleware\ExampleMiddleware::class
-// ]);
-
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
 /*
