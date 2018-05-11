@@ -34,7 +34,7 @@ class ExampleTest extends TestCase
      */
     public function testBadMethod()
     {
-        $this->post('/', [], ['Content-Type' => 'application/json']);
+        $this->post('/', [], ['Accept' => 'application/json']);
 
         $this->receiveJson();
 
@@ -51,7 +51,7 @@ class ExampleTest extends TestCase
      */
     public function testInvalidEndpoint()
     {
-        $this->get('/api', ['Content-Type' => 'application/json']);
+        $this->get('/api', ['Accept' => 'application/json']);
 
         $this->assertTrue(
             $this->response->isNotFound()

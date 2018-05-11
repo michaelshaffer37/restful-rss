@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($request->isJson()) {
+        if ($request->wantsJson() || $request->isJson()) {
             if ($e instanceof HttpException) {
                 return response()->json(
                     ['msg' => http_status_code_reason($e->getStatusCode())],
