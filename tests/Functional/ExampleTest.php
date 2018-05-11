@@ -12,66 +12,51 @@ use App\Tests\TestCase;
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * A basic application health check.
      *
      * @return void
      */
-    public function testExample()
+    public function testIndex()
     {
         $this->get('/');
 
-        $this->assertEquals(
-            $this->app->version(),
-            $this->response->getContent()
+        $this->response->isOk();
+
+        $this->receiveJson(
+            ['version' => $this->app->version()]
         );
     }
 
     /**
-     * Simple Functional Test
+     * Test sending a bad method to endpoint.
      *
      * @return void
      */
-    public function testHelloWorld()
+    public function testBadMethod()
     {
-        $this->get('/hello');
+        $this->post('/', [], ['Content-Type' => 'application/json']);
 
-        $this->assertEquals(
-            "Hello World!",
-            $this->response->getContent()
+        $this->receiveJson();
+
+        $this->assertTrue(
+            $this->response->isClientError()
         );
+
     }
 
     /**
-     * Simple Test of POC RSS Parsing End-point
+     * Test requesting an invalid endpoint.
      *
      * @return void
      */
-    public function testRssDefault()
+    public function testInvalidEndpoint()
     {
-        $this->get('/rss-test');
+        $this->get('/api', ['Content-Type' => 'application/json']);
 
-        $content = 'NASA Breaking News, http://www.nasa.gov/, A RSS news feed containing the latest NASA news articles and press releases.';
-
-        $this->assertEquals(
-            $content,
-            $this->response->getContent()
+        $this->assertTrue(
+            $this->response->isNotFound()
         );
-    }
 
-    /**
-     * Simple test of POS RSS Parsing end-point, passing a url
-     *
-     * @return void
-     */
-    public function testRssTest()
-    {
-        $this->get('/rss-test?url=https://abcnews.go.com/abcnews/topstories');
-
-        $content = 'ABC News: Top Stories, http://abcnews.go.com/';
-
-        $this->assertEquals(
-            $content,
-            $this->response->getContent()
-        );
+        $this->receiveJson();
     }
 }
