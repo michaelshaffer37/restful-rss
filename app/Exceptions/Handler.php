@@ -2,11 +2,9 @@
 
 namespace App\Exceptions;
 
-use App\Support\Json;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -49,13 +47,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($request->isJson() && $e instanceof ModelNotFoundException) {
-            // When a Model is not found
-            return new Response(
-                Json::encode(['id' => 'api:resource:dne', 'msg' => 'the requested resource does not exist']),
-                404,
-                ['Content-Type' => 'application/json']
-            );
+        if ($request->isJson()) {
+            if ($e instanceof HttpException) {
+                return response()->json(
+                    ['msg' => http_status_code_reason($e->getStatusCode())],
+                    $e->getStatusCode(),
+                    $e->getHeaders()
+                );
+            }
+            if ($e instanceof ModelNotFoundException) {
+                // When a Model is not found
+                return response()->json(['msg' => 'Not Found'], 404);
+            }
         }
 
         return parent::render($request, $e);

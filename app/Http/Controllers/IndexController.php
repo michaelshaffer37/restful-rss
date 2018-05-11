@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Json;
+
 class IndexController extends Controller
 {
     public function index()
     {
-        return app()->version();
-    }
-
-    public function hello()
-    {
-        return 'Hello World!';
+        return response()->json(['version' => app()->version()], 200);
     }
 }

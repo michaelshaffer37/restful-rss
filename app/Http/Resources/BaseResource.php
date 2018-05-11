@@ -53,7 +53,9 @@ class BaseResource extends Model
     {
         if (! isset($this->route)) {
             return str_replace(
-                '\\', '', Str::snake(class_basename($this))
+                '\\',
+                '',
+                Str::snake(class_basename($this))
             );
         }
         return $this->route;

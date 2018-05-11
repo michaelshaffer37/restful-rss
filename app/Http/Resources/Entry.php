@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Support\Collection;
 
-
 /**
  * Class Entry
  *
