@@ -2,10 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Support\Json;
 use Exception;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -28,7 +30,8 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
+     *
      * @return void
      */
     public function report(Exception $e)
@@ -39,12 +42,22 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception               $e
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
     {
+        if ($request->isJson() && $e instanceof ModelNotFoundException) {
+            // When a Model is not found
+            return new Response(
+                Json::encode(['id' => 'api:resource:dne', 'msg' => 'the requested resource does not exist']),
+                404,
+                ['Content-Type' => 'application/json']
+            );
+        }
+
         return parent::render($request, $e);
     }
 }
