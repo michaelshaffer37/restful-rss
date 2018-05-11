@@ -18,7 +18,7 @@ class FeedController extends Controller
     /**
      * @param Request $request
      *
-     * @return string
+     * @return \App\Http\Resources\BaseResource
      */
     public function store(Request $request)
     {
@@ -62,13 +62,16 @@ class FeedController extends Controller
     /**
      * @param $feed
      *
-     * @return string
+     * @return \App\Http\Resources\BaseResource
      */
     public function get($feed)
     {
         return Feed::findOrFail($feed);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function all()
     {
         return Feed::all();
