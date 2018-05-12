@@ -27,8 +27,4 @@ class Feed extends BaseResource
     protected $hidden = [
         'properties',
     ];
-
-    protected $casts = [
-        'description' => 'string',
-    ];
 }

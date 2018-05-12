@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Support\Collection;
+use MongoDB\BSON\UTCDateTime;
+use DateTime;
 
 /**
  * Class Entry
@@ -25,6 +27,41 @@ class Entry extends BaseResource
         'content',
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'dateModified'
+    ];
+
+    /**
+     * @param int $year
+     * @param int $month
+     * @param int $day
+     *
+     * @return Collection
+     */
+    public static function findByDate(int $year, int $month, int $day): Collection
+    {
+
+        $startOfDay = new UTCDateTime(new DateTime(sprintf('%d-%02d-%02dT00:00:00Z', $year, $month, $day)));
+        $endOfDay = new UTCDateTime(new DateTime(sprintf('%d-%02d-%02dT23:59:59Z', $year, $month, $day)));
+
+        $docs = (new static)->raw()->find(
+            ['dateModified' => ['$gt' => $startOfDay, '$lt' => $endOfDay]],
+            ['$sort' => ['dateModified']]
+        );
+
+        return static::docsToCollection($docs);
+    }
+
+    /**
+     * @param string $terms
+     *
+     * @return Collection
+     */
     public static function search(string $terms): Collection
     {
         $projection = ['score' => ['$meta' => 'textScore']];
@@ -37,13 +74,7 @@ class Entry extends BaseResource
                 '$sort' => $sort,
             ]
         );
-        $found = array_map(
-            function ($doc) {
-                return (new static)->newFromBuilder($doc);
-            },
-            iterator_to_array($docs, false)
-        );
 
-        return collect($found);
+        return static::docsToCollection($docs);
     }
 }

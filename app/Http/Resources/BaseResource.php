@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\Model;
+use Traversable;
 
 class BaseResource extends Model
 {
@@ -51,7 +53,7 @@ class BaseResource extends Model
      */
     protected function getRouteName()
     {
-        if (! isset($this->route)) {
+        if (!isset($this->route)) {
             return str_replace(
                 '\\',
                 '',
@@ -79,5 +81,27 @@ class BaseResource extends Model
     public function getUriAttribute()
     {
         return route($this->getRouteName(), [$this->getRouteKeyName() => $this->getRouteKey()]);
+    }
+
+    /**
+     * Convert a group of docs from the db to a collection of models
+     *
+     * @param array|Traversable $docs
+     *
+     * @return Collection
+     */
+    protected static function docsToCollection($docs): Collection
+    {
+        if ($docs instanceof Traversable) {
+            $docs = iterator_to_array($docs, false);
+        }
+        return collect(
+            array_map(
+                function ($doc) {
+                    return static::__callStatic('newFromBuilder', [$doc]);
+                },
+                $docs
+            )
+        );
     }
 }
