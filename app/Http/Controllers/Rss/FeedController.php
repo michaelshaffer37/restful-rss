@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
 use Illuminate\Http\Request;
-use MongoDB\BSON\UTCDateTime;
 use Ramsey\Uuid\Uuid;
 use Zend\Feed\Reader\Reader;
 
@@ -24,6 +23,17 @@ class FeedController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'url' => 'bail|required|url|active_url',
+            'name' => 'required|string|alpha_dash|max:255',
+        ];
+
+        $validator = app('validator')->make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return abort(400);
+        }
+
         $channel = Reader::import($request->get('url'));
 
         $appNS = Uuid::uuid5(Uuid::NAMESPACE_DNS, $request->getHttpHost());

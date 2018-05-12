@@ -14,18 +14,20 @@ class EntryController
 
     public function all(Request $request)
     {
+        $rules = [
+            'search' => 'required_without_all:date|alpha_dash',
+            'date' => 'required_without_all:search|date_format:"Y-m-d"',
+        ];
+
+        $validator = app('validator')->make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return abort(400);
+        }
+
         if ($request->has('search')) {
             return Entry::search($request->get('search'));
         } elseif ($request->has('date')) {
-            $date = $request->get('date');
-            if (!preg_match('/^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/', $date)) {
-                // Bad Request by Client.
-                return response()->json(
-                    ['msg' => http_status_code_reason(400) . ': Invalid date format expected YYYY-MM-DD'],
-                    400
-                );
-            }
-
             $parts = date_parse($request->get('date'));
             return Entry::findByDate($parts['year'], $parts['month'], $parts['day']);
         } else {
