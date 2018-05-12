@@ -64,9 +64,9 @@ class FeedController extends Controller
      *
      * @return \App\Http\Resources\BaseResource
      */
-    public function get($feed)
+    public function get($id)
     {
-        return Feed::findOrFail($feed);
+        return Feed::findOrFail($id);
     }
 
     /**

@@ -11,15 +11,18 @@
 |
 */
 
+/**
+ * @var $router \Laravel\Lumen\Routing\Router
+ */
 $router->get('/', ['uses' => 'IndexController@index']);
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-    $router->group(['namespace' => 'Rss'], function () use ($router) {
-        $router->get('feeds', ['uses' => 'FeedController@all']);
-        $router->post('feed', ['uses' => 'FeedController@store']);
-        $router->get('feed/{id}', ['as' => 'feed', 'uses' => 'FeedController@get']);
+$router->group(['prefix' => 'api'], function (\Laravel\Lumen\Routing\Router $router) {
+    $router->group(['namespace' => 'Rss'], function (\Laravel\Lumen\Routing\Router $router) {
+        $router->get('feeds', ['as' => 'feed.collection', 'uses' => 'FeedController@all']);
+        $router->post('feeds', ['uses' => 'FeedController@store']);
+        $router->get('feeds/{id}', ['as' => 'feed', 'uses' => 'FeedController@get']);
 
-        $router->get('entries', ['uses' => 'EntryController@all']);
-        $router->get('entry/{id}', ['as' => 'entry', 'uses' => 'EntryController@get']);
+        $router->get('entries', ['as' => 'entry.collection', 'uses' => 'EntryController@all']);
+        $router->get('entries/{id}', ['as' => 'entry', 'uses' => 'EntryController@get']);
     });
 });
