@@ -56,6 +56,7 @@ class FeedController extends Controller
                 [
                     'title' => $entry->getTitle(),
                     'link' => $entry->getLink(),
+                    'feed' => $feed->uri,
                     'description' => $entry->getDescription(),
                     'pubDate' => $entry->getDateCreated(),
                     'author' => $entry->getAuthor(),

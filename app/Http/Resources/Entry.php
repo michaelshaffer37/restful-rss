@@ -22,6 +22,7 @@ class Entry extends BaseResource
         '_id',
         'link',
         'title',
+        'feed',
         'description',
         'pubDate',
         'author',
