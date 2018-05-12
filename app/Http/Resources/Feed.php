@@ -13,6 +13,7 @@ class Feed extends BaseResource
      * @var array
      */
     protected $fillable = [
+        '_id',
         'feed',
         'link',
         'name',

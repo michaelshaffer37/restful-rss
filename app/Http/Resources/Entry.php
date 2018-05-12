@@ -19,6 +19,7 @@ class Entry extends BaseResource
      * @var array
      */
     protected $fillable = [
+        '_id',
         'link',
         'title',
         'description',
@@ -37,7 +38,13 @@ class Entry extends BaseResource
         'pubDate',
     ];
 
+    /**
+     * The attributes that should not be displayed on the api.
+     *
+     * @var array
+     */
     protected $hidden = [
+        '_id',
         'author',
         'content',
     ];

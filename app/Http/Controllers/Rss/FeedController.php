@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
 use Illuminate\Http\Request;
+use MongoDB\BSON\UTCDateTime;
+use Ramsey\Uuid\Uuid;
 use Zend\Feed\Reader\Reader;
 
 /**
@@ -22,19 +24,22 @@ class FeedController extends Controller
      */
     public function store(Request $request)
     {
-        $channel = Reader::import($request->get('feed'));
+        $channel = Reader::import($request->get('url'));
 
-        $channel->getId();
+        $appNS = Uuid::uuid5(Uuid::NAMESPACE_DNS, $request->getHttpHost());
+
+        $feedUuid = (string) Uuid::uuid5($appNS, $channel->getId());
+
         $feed = Feed::updateOrCreate(
-            ['feed' => $channel->getLink()],
+            ['_id' => $feedUuid],
             [
                 'name' => $request->get('name'),
-                'link' => $channel->getFeedLink(),
+                'link' => $channel->getLink(),
+                'feed' => $channel->getFeedLink(),
                 'title' => $channel->getTitle(),
                 'description' => $channel->getDescription(),
                 'properties' => [
                     'author' => $channel->getAuthors(),
-                    'identifier' => $channel->getId(),
                     'language' => $channel->getLanguage(),
                     'copyright' => $channel->getCopyright(),
                     'created' => $channel->getDateCreated(),
@@ -44,10 +49,13 @@ class FeedController extends Controller
         );
 
         foreach ($channel as $entry) {
+            $id = (string) Uuid::uuid5($feedUuid, $entry->getId() . $feed->feed);
+
             Entry::updateOrCreate(
-                ['link' => $entry->getLink()],
+                ['_id' => $id],
                 [
                     'title' => $entry->getTitle(),
+                    'link' => $entry->getLink(),
                     'description' => $entry->getDescription(),
                     'pubDate' => $entry->getDateCreated(),
                     'author' => $entry->getAuthor(),
