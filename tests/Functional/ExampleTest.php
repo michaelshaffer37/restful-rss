@@ -41,7 +41,6 @@ class ExampleTest extends TestCase
         $this->assertTrue(
             $this->response->isClientError()
         );
-
     }
 
     /**
