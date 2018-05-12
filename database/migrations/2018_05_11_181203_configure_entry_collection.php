@@ -18,7 +18,7 @@ class ConfigureEntryCollection extends Migration
          */
         Schema::create('entries', function (Blueprint $collection) {
             $collection->unique('link');
-
+            $collection->index('pubDate');
             $collection->index(
                 ['name' => 'text', 'description' => 'text'],
                 null,

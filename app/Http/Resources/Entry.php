@@ -22,9 +22,10 @@ class Entry extends BaseResource
         'link',
         'title',
         'description',
-        'dateModified',
-        'authors',
+        'pubDate',
+        'author',
         'content',
+        'media',
     ];
 
     /**
@@ -33,8 +34,21 @@ class Entry extends BaseResource
      * @var array
      */
     protected $dates = [
-        'dateModified'
+        'pubDate',
     ];
+
+    protected $hidden = [
+        'author',
+        'content',
+    ];
+
+    public function getMediaAttribute()
+    {
+        if(isset($this->attributes['media'])) {
+            return $this->attributes['media']['url'];
+        }
+        return null;
+    }
 
     /**
      * @param int $year
@@ -50,8 +64,8 @@ class Entry extends BaseResource
         $endOfDay = new UTCDateTime(new DateTime(sprintf('%d-%02d-%02dT23:59:59Z', $year, $month, $day)));
 
         $docs = (new static)->raw()->find(
-            ['dateModified' => ['$gt' => $startOfDay, '$lt' => $endOfDay]],
-            ['$sort' => ['dateModified']]
+            ['pubDate' => ['$gt' => $startOfDay, '$lt' => $endOfDay]],
+            ['$sort' => ['pubDate']]
         );
 
         return static::docsToCollection($docs);

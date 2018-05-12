@@ -49,9 +49,10 @@ class FeedController extends Controller
                 [
                     'title' => $entry->getTitle(),
                     'description' => $entry->getDescription(),
-                    'dateModified' => $entry->getDateModified(),
-                    'authors' => $entry->getAuthor(),
+                    'pubDate' => $entry->getDateCreated(),
+                    'author' => $entry->getAuthor(),
                     'content' => $entry->getContent(),
+                    'media' => $entry->getEnclosure(),
                 ]
             );
         }
