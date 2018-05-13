@@ -52,7 +52,7 @@ class Entry extends BaseResource
 
     public function getMediaAttribute()
     {
-        if(isset($this->attributes['media'])) {
+        if (isset($this->attributes['media'])) {
             return $this->attributes['media']['url'];
         }
         return null;
