@@ -1,8 +1,6 @@
 version: '3'
 volumes:
   vendor:
-  storage_views:
-  storage_cache:
 services:
   app:
     container_name: restful-rss-app

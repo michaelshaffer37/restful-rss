@@ -16,7 +16,7 @@ COPY composer.lock ./
 RUN composer install --no-scripts --no-autoloader
 
 # Add the app files
-COPY . /app
+COPY ./ /app/
 
 # Add the image env file
 COPY ./.env.image ./.env

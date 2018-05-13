@@ -47,7 +47,7 @@ $app->configure('queue');
 |
 */
 $app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
- $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -96,8 +96,9 @@ $app->singleton(
 |
 */
 
- $app->register(App\Providers\RssClientServiceProvider::class);
- $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\RssClientServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\RouteServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

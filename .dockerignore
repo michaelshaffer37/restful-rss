@@ -1,10 +1,10 @@
 .git/
+.idea/
 **/*.gitkeep
 **/*.gitignore
-readme.md
+README.md
 /vendor/
-/storage/logs/*.log
-bootstrap/cache/*
+storage/
 docker-compose.yml
 .env
 .env.example
