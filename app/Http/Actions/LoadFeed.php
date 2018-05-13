@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Rss;
+namespace App\Http\Actions;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
 use Illuminate\Http\Request;
@@ -10,31 +9,24 @@ use Ramsey\Uuid\Uuid;
 use Zend\Feed\Reader\Reader;
 
 /**
- * Class FeedController
+ * Class LoadFeed
  *
- * @package App\Http\Controllers\Rss
+ * @package App\Http\Actions
  */
-class FeedController extends Controller
+class LoadFeed extends Action
 {
-    /**
-     * @param Request $request
-     *
-     * @return \App\Http\Resources\BaseResource
-     */
-    public function store(Request $request)
+    protected $rules = [
+        'url' => 'bail|required|url|active_url',
+        'name' => 'required|string|max:64',
+    ];
+
+    protected function handle(Request $request)
     {
-        $rules = [
-            'url' => 'bail|required|url|active_url',
-            'name' => 'required|string|alpha_dash|max:255',
-        ];
-
-        $this->validate($request, $rules);
-
         $channel = Reader::import($request->get('url'));
 
         $appNS = Uuid::uuid5(Uuid::NAMESPACE_DNS, $request->getHttpHost());
 
-        $feedUuid = (string) Uuid::uuid5($appNS, $channel->getId());
+        $feedUuid = (string)Uuid::uuid5($appNS, $channel->getId());
 
         $feed = Feed::updateOrCreate(
             ['_id' => $feedUuid],
@@ -42,8 +34,8 @@ class FeedController extends Controller
                 'name' => $request->get('name'),
                 'link' => $channel->getLink(),
                 'feed' => $channel->getFeedLink(),
-                'title' => $channel->getTitle(),
-                'description' => $channel->getDescription(),
+                'title' => trim($channel->getTitle()),
+                'description' => trim($channel->getDescription()),
                 'properties' => [
                     'author' => $channel->getAuthors(),
                     'language' => $channel->getLanguage(),
@@ -55,15 +47,15 @@ class FeedController extends Controller
         );
 
         foreach ($channel as $entry) {
-            $id = (string) Uuid::uuid5($feedUuid, $entry->getId() . $feed->feed);
+            $id = (string)Uuid::uuid5($feedUuid, $entry->getId() . $feed->feed);
 
             Entry::updateOrCreate(
                 ['_id' => $id],
                 [
-                    'title' => $entry->getTitle(),
-                    'link' => $entry->getLink(),
+                    'title' => trim($entry->getTitle()),
+                    'link' => trim($entry->getLink()),
                     'feed' => $feed->uri,
-                    'description' => $entry->getDescription(),
+                    'description' => trim($entry->getDescription()),
                     'pubDate' => $entry->getDateCreated(),
                     'author' => $entry->getAuthor(),
                     'content' => $entry->getContent(),
@@ -73,23 +65,5 @@ class FeedController extends Controller
         }
 
         return $feed;
-    }
-
-    /**
-     * @param $feed
-     *
-     * @return \App\Http\Resources\BaseResource
-     */
-    public function get($id)
-    {
-        return Feed::findOrFail($id);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function all()
-    {
-        return Feed::all();
     }
 }
