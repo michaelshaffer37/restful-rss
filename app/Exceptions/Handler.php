@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($request->wantsJson() || $request->isJson()) {
+        if ($request->wantsJson() || $request->acceptsAnyContentType()) {
             if ($e instanceof HttpException) {
                 return response()->json(
                     ['msg' => http_status_code_reason($e->getStatusCode())],
@@ -57,7 +57,10 @@ class Handler extends ExceptionHandler
             }
             if ($e instanceof ModelNotFoundException) {
                 // When a Model is not found
-                return response()->json(['msg' => 'Not Found'], 404);
+                return response()->json(
+                    ['msg' => http_status_code_reason(404)],
+                    404
+                );
             }
         }
 

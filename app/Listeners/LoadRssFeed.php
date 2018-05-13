@@ -1,33 +1,49 @@
 <?php
 
-namespace App\Http\Actions;
+namespace App\Listeners;
 
+use App\Events\LoadFeed;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
-use Illuminate\Http\Request;
-use Ramsey\Uuid\Uuid;
+use App\Http\Resources\Source;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Zend\Feed\Reader\Reader;
 
 /**
- * Class LoadFeed
+ * Class LoadRssFeed
  *
- * @package App\Http\Actions
+ * @package App\Listeners
  */
-class LoadFeed extends CreatesResources
+class LoadRssFeed implements ShouldQueue
 {
-    protected $rules = [
-        'url' => 'bail|required|url|active_url',
-        'name' => 'required|string|max:64',
-    ];
+    /**
+     * The name of the queue the job should be sent to.
+     *
+     * @var string
+     */
+    public $queue = 'sources';
 
-    protected function handle(Request $request)
+    /**
+     * Handle the load feed event.
+     *
+     * @param  \App\Events\LoadFeed $event
+     *
+     * @return void
+     */
+    public function handle(LoadFeed $event)
     {
-        $channel = Reader::import($request->get('url'));
+        $event->source->updateStatus(Source::PROCESSING);
+        /**
+         * Load the Source Url as an RSS Feed.
+         */
+        $channel = Reader::import($event->source->url);
 
+        /**
+         *  Store the information about the RSS Feed to the DB.
+         */
         $feed = Feed::updateOrCreate(
-            ['_id' => $this->buildUuid($channel->getId())],
+            ['_id' => app_uuid($channel->getId())],
             [
-                'name' => $request->get('name'),
                 'link' => $channel->getLink(),
                 'feed' => $channel->getFeedLink(),
                 'title' => trim($channel->getTitle()),
@@ -42,9 +58,12 @@ class LoadFeed extends CreatesResources
             ]
         );
 
+        /**
+         * Load Each of the entries into the DB
+         */
         foreach ($channel as $entry) {
             Entry::updateOrCreate(
-                ['_id' => $this->buildUuid($entry->getId() . $feed->feed)],
+                ['_id' => app_uuid($entry->getId() . $feed->feed)],
                 [
                     'title' => trim($entry->getTitle()),
                     'link' => trim($entry->getLink()),
@@ -58,6 +77,19 @@ class LoadFeed extends CreatesResources
             );
         }
 
-        return $feed;
+        $event->source->updateStatus(Source::LOADED, ['feed' => $feed->uri]);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param  \App\Events\LoadFeed $event
+     * @param  \Exception           $exception
+     *
+     * @return void
+     */
+    public function failed(LoadFeed $event, $exception)
+    {
+        $event->source->updateStatus(Source::FAILED);
     }
 }

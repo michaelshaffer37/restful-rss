@@ -20,7 +20,7 @@ class ExampleTest extends TestCase
     {
         $this->get('/');
 
-        $this->response->isOk();
+        $this->assertTrue($this->response->isOk());
 
         $this->receiveJson(
             ['version' => $this->app->version()]

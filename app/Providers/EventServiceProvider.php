@@ -4,6 +4,11 @@ namespace App\Providers;
 
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
+/**
+ * Class EventServiceProvider
+ *
+ * @package App\Providers
+ */
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -12,8 +17,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\LoadFeed' => [
+            'App\Listeners\LoadRssFeed',
         ],
+        'App\Events\SourceSaved' => [
+            'App\Listeners\CheckSourceSave',
+        ]
     ];
 }

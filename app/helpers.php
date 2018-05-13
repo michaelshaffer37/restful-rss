@@ -79,3 +79,10 @@ if (!function_exists('app_namespace')) {
         );
     }
 }
+
+if (!function_exists('app_uuid')) {
+    function app_uuid(string $name): string
+    {
+        return (string)\Ramsey\Uuid\Uuid::uuid5(app_namespace(), $name);
+    }
+}

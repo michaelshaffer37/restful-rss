@@ -4,7 +4,6 @@ namespace App\Http\Actions;
 
 use App\Http\Resources\Source;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Class AddSource
@@ -32,13 +31,21 @@ class AddSource extends CreatesResources
      */
     protected function handle(Request $request)
     {
-        return Source::updateOrCreate(
+        /**
+         * @var Source $source
+         */
+        $source = Source::updateOrCreate(
             ['url' => $request->get('url')],
             [
                 '_id' => $this->buildUuid($request->get('url')),
                 'name' => $request->get('name'),
-                'status' => Source::CREATED,
             ]
         );
+
+        if (!isset($source->status) || in_array($source->status, [Source::FAILED, Source::LOADED])) {
+            $source->updateStatus(Source::REQUESTED);
+        }
+
+        return $source;
     }
 }

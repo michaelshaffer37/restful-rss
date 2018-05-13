@@ -34,6 +34,7 @@ $app = new Laravel\Lumen\Application(
 */
 $app->configure('app');
 $app->configure('database');
+$app->configure('queue');
 
 /*
 |--------------------------------------------------------------------------
@@ -96,7 +97,7 @@ $app->singleton(
 */
 
  $app->register(App\Providers\RssClientServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+ $app->register(App\Providers\EventServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
