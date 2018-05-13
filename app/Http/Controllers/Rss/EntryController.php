@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Rss;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Entry;
 use Illuminate\Http\Request;
 
-class EntryController
+class EntryController extends Controller
 {
     public function get($id)
     {
@@ -15,15 +16,11 @@ class EntryController
     public function all(Request $request)
     {
         $rules = [
-            'search' => 'required_without_all:date|alpha_dash',
-            'date' => 'required_without_all:search|date_format:"Y-m-d"',
+            'search' => 'sometimes|required_without_all:date|alpha_dash',
+            'date' => 'sometimes|required_without_all:search|date_format:"Y-m-d"',
         ];
 
-        $validator = app('validator')->make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return abort(400);
-        }
+        $this->validate($request, $rules);
 
         if ($request->has('search')) {
             return Entry::search($request->get('search'));

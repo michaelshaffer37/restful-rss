@@ -28,11 +28,7 @@ class FeedController extends Controller
             'name' => 'required|string|alpha_dash|max:255',
         ];
 
-        $validator = app('validator')->make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return abort(400);
-        }
+        $this->validate($request, $rules);
 
         $channel = Reader::import($request->get('url'));
 
