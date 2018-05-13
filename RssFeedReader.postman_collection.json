@@ -1,0 +1,552 @@
+{
+	"info": {
+		"name": "RssFeedReader",
+		"_postman_id": "99c0cc77-7153-c64b-c04c-b2a73cd6ac97",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Rss Index",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Wired Science\",\n\t\"feed\": \"https://www.wired.com/feed/category/science/latest/rss\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8181/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "RSS Source All",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8181/api/sources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "RSS Source",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8181/api/sources/bda75d09-cbb1-5a3f-8050-720f9a168295",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources",
+						"bda75d09-cbb1-5a3f-8050-720f9a168295"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Source Store Wired",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Wired Science\",\n\t\"url\": \"https://www.wired.com/category/science/feed\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Source Store Wired (With Redirect)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Wired Science\",\n\t\"url\": \"https://www.wired.com/feed/category/science/latest/rss\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Source Store NASA",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"NASA Breaking News\",\n\t\"url\": \"https://www.nasa.gov/rss/dyn/breaking_news.rss\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Source Store ABC News",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"ABC Breaking News\",\n\t\"url\": \"https://abcnews.go.com/abcnews/topstories\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Feed All",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/feeds",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"feeds"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Feed",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/feeds/21d021ce-22fa-5dd2-88ac-e53d321337b4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"feeds",
+						"21d021ce-22fa-5dd2-88ac-e53d321337b4"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Entry All",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/entries",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"entries"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Entry Search String",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/entries?search=science",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"entries"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "science",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Entry Search Date",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/entries?date=2018-05-13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"entries"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2018-05-13",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Entry",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/entries/a7538ed4-c0cf-5774-8faf-4c5a4c61d7fc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"entries",
+						"a7538ed4-c0cf-5774-8faf-4c5a4c61d7fc"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Rss Entry (With Media)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "feed",
+							"value": "https://www.wired.com/feed/category/science/latest/rss",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Wired Rss",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/entries/e0ea696f-da4a-5b4b-b3aa-6d98b2548261",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"entries",
+						"e0ea696f-da4a-5b4b-b3aa-6d98b2548261"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
