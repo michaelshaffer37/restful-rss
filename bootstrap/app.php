@@ -96,7 +96,6 @@ $app->singleton(
 */
 
  $app->register(App\Providers\RssClientServiceProvider::class);
- $app->register(App\Providers\MongoClientServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
