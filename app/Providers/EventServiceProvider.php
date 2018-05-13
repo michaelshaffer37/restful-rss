@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\RequestLoadFeed;
+use App\Events\SourceSaved;
+use App\Listeners\CheckSourceSave;
+use App\Listeners\LoadRssFeed;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 /**
@@ -17,11 +21,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\LoadFeed' => [
-            'App\Listeners\LoadRssFeed',
+        RequestLoadFeed::class => [
+            LoadRssFeed::class,
         ],
-        'App\Events\SourceSaved' => [
-            'App\Listeners\CheckSourceSave',
-        ]
+        SourceSaved::class => [
+            CheckSourceSave::class,
+        ],
     ];
 }

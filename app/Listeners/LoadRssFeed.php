@@ -2,10 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\LoadFeed;
+use App\Events\RequestLoadFeed;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
 use App\Http\Resources\Source;
+use App\Jobs\LoadRssFeedJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Zend\Feed\Reader\Reader;
 
@@ -17,20 +18,13 @@ use Zend\Feed\Reader\Reader;
 class LoadRssFeed implements ShouldQueue
 {
     /**
-     * The name of the queue the job should be sent to.
-     *
-     * @var string
-     */
-    public $queue = 'sources';
-
-    /**
      * Handle the load feed event.
      *
-     * @param  \App\Events\LoadFeed $event
+     * @param  \App\Events\RequestLoadFeed $event
      *
      * @return void
      */
-    public function handle(LoadFeed $event)
+    public function handle(RequestLoadFeed $event)
     {
         $event->source->updateStatus(Source::PROCESSING);
         /**
@@ -83,12 +77,12 @@ class LoadRssFeed implements ShouldQueue
     /**
      * Handle a job failure.
      *
-     * @param  \App\Events\LoadFeed $event
+     * @param  \App\Events\RequestLoadFeed $event
      * @param  \Exception           $exception
      *
      * @return void
      */
-    public function failed(LoadFeed $event, $exception)
+    public function failed(RequestLoadFeed $event, $exception)
     {
         $event->source->updateStatus(Source::FAILED);
     }

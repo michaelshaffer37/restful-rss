@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\LoadFeed;
+use App\Events\RequestLoadFeed;
 use App\Events\SourceSaved;
 use App\Http\Resources\Source;
 
@@ -28,7 +28,8 @@ class CheckSourceSave
     public function handle(SourceSaved $sourceSaved)
     {
         if ($sourceSaved->source->status === Source::REQUESTED) {
-            event(new LoadFeed($sourceSaved->source));
+            event(new RequestLoadFeed($sourceSaved->source));
+            // dispatch(new LoadRssFeed($sourceSaved->source));
             $sourceSaved->source->updateStatus(Source::QUEUED);
         }
     }

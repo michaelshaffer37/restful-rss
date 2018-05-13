@@ -5,11 +5,11 @@ namespace App\Events;
 use App\Http\Resources\Source;
 
 /**
- * Class LoadFeed
+ * Class RequestLoadFeed
  *
  * @package App\Events
  */
-class LoadFeed extends Event
+class RequestLoadFeed extends Event
 {
     /**
      * The Source resource for the event to take place on.
