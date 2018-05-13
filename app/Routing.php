@@ -21,6 +21,9 @@ class Routing
         $router->get('/', ['uses' => \App\Http\Actions\Index::class]);
 
         $router->group(['prefix' => 'api'], function (Router $router) {
+            $router->post('sources', \App\Http\Actions\AddSource::class);
+            $router->get('sources/{id}', ['as' => 'source', 'uses' => \App\Http\Actions\GetSource::class]);
+
             $router->get('feeds', ['as' => 'feed.collection', 'uses' => \App\Http\Actions\GetFeedCollection::class]);
             $router->post('feeds', ['uses' => \App\Http\Actions\LoadFeed::class]);
             $router->get('feeds/{id}', ['as' => 'feed', 'uses' => \App\Http\Actions\GetFeed::class]);

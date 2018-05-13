@@ -13,7 +13,7 @@ use Zend\Feed\Reader\Reader;
  *
  * @package App\Http\Actions
  */
-class LoadFeed extends Action
+class LoadFeed extends CreatesResources
 {
     protected $rules = [
         'url' => 'bail|required|url|active_url',
@@ -24,12 +24,8 @@ class LoadFeed extends Action
     {
         $channel = Reader::import($request->get('url'));
 
-        $appNS = Uuid::uuid5(Uuid::NAMESPACE_DNS, $request->getHttpHost());
-
-        $feedUuid = (string)Uuid::uuid5($appNS, $channel->getId());
-
         $feed = Feed::updateOrCreate(
-            ['_id' => $feedUuid],
+            ['_id' => $this->buildUuid($channel->getId())],
             [
                 'name' => $request->get('name'),
                 'link' => $channel->getLink(),
@@ -47,10 +43,8 @@ class LoadFeed extends Action
         );
 
         foreach ($channel as $entry) {
-            $id = (string)Uuid::uuid5($feedUuid, $entry->getId() . $feed->feed);
-
             Entry::updateOrCreate(
-                ['_id' => $id],
+                ['_id' => $this->buildUuid($entry->getId() . $feed->feed)],
                 [
                     'title' => trim($entry->getTitle()),
                     'link' => trim($entry->getLink()),

@@ -69,3 +69,13 @@ if (!function_exists('http_status_code_reason')) {
         return $text;
     }
 }
+
+if (!function_exists('app_namespace')) {
+    function app_namespace(): \Ramsey\Uuid\Uuid
+    {
+        return \Ramsey\Uuid\Uuid::uuid5(
+            \Ramsey\Uuid\Uuid::NAMESPACE_DNS,
+            config('app.hostname')
+        );
+    }
+}
