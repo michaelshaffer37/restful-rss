@@ -2,12 +2,18 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\ResourceRoutable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Traversable;
 
-abstract class BaseResource extends Model
+/**
+ * Class BaseResource
+ *
+ * @package App\Http\Resources
+ */
+abstract class BaseResource extends Model implements ResourceRoutable
 {
     /**
      * The type of key to type cast.
@@ -51,7 +57,7 @@ abstract class BaseResource extends Model
      *
      * @return string
      */
-    protected function getRouteName()
+    public function getRouteName(): string
     {
         if (!isset($this->route)) {
             return str_replace(
