@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests\Functional;
+namespace App\Tests\Functional\Http\Actions;
 
 use App\Tests\TestCase;
 
 /**
- * Class ExampleTest
+ * Class IndexActionTest
  *
  * A Set of initial example tests to be run on the app.
  */
-class ExampleTest extends TestCase
+class IndexActionTest extends TestCase
 {
     /**
      * A basic application health check.

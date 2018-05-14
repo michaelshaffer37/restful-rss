@@ -2,6 +2,8 @@
 
 namespace App\Tests\Functional\Http\Actions;
 
+use App\Contracts\ResourceRoutable;
+use App\Http\Resources\BaseResource;
 use App\Tests\TestCase;
 
 /**
@@ -12,13 +14,25 @@ use App\Tests\TestCase;
 abstract class GetResourceTestCase extends TestCase
 {
     /**
-     * Returns the path to the resource collection
-     *
-     * e.g. 'api/sources'
-     *
-     * @return string
+     * Note this is a v4 uuid so it will never collide with real app data.
      */
-    abstract public function getResourcePath(): string;
+    const NON_APP_UUID = 'a5a2fb8f-6b10-4148-b491-7c6b388b152e';
+
+    /**
+     * Clean Up after the tests.
+     */
+    public function tearDown()
+    {
+        $this->getResourceInstance()->destroy([static::NON_APP_UUID]);
+        parent::tearDown();
+    }
+
+    /**
+     * Get a new instance of the resource for tests.
+     *
+     * @return BaseResource
+     */
+    abstract public function getResourceInstance(): ResourceRoutable;
 
     /**
      * Request that asks for JSON should get json.
@@ -27,9 +41,11 @@ abstract class GetResourceTestCase extends TestCase
      */
     public function testNotFoundResource()
     {
+        $resource = $this->getResourceInstance();
+
         // Note this is a version 4 uuid
         $this->get(
-            trim($this->getResourcePath(), '/') . '/a5a2fb8f-6b10-4148-b491-7c6b388b152e',
+            route($resource->getRouteName(), [$resource->getRouteKeyName() => static::NON_APP_UUID]),
             ['Accept' => 'application/json']
         );
 
@@ -37,6 +53,40 @@ abstract class GetResourceTestCase extends TestCase
 
         $this->receiveJson(
             ['msg' => 'Not Found']
+        );
+    }
+
+    /**
+     * Request that asks for JSON should get json.
+     *
+     * @return void
+     */
+    public function testSuccessGetResource()
+    {
+        $this->withoutEvents();
+
+        $resource = $this->getResourceInstance();
+        $resource->fill([
+            '_id' => static::NON_APP_UUID,
+        ]);
+
+        // Persis the Resource for this test.
+        $resource->save();
+
+        $uri = route(
+            $resource->getRouteName(),
+            [
+                $resource->getRouteKeyName() => static::NON_APP_UUID
+            ]
+        );
+
+        // Note this is a version 4 uuid
+        $this->getJson($uri);
+
+        $this->assertResponseStatus(200);
+
+        $this->receiveJson(
+            ['uri' => $uri]
         );
     }
 }
