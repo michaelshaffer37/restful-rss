@@ -33,6 +33,8 @@ class LoadRssFeed implements ShouldQueue
 
         /**
          *  Store the information about the RSS Feed to the DB.
+         *
+         * @var Feed $feed
          */
         $feed = Feed::updateOrCreate(
             ['_id' => app_uuid($channel->getId())],
@@ -56,7 +58,7 @@ class LoadRssFeed implements ShouldQueue
          */
         foreach ($channel as $entry) {
             Entry::updateOrCreate(
-                ['_id' => app_uuid($entry->getId() . $feed->feed)],
+                ['_id' => app_uuid($entry->getId() . $feed->getKey())],
                 [
                     'title' => trim($entry->getTitle()),
                     'link' => trim($entry->getLink()),
