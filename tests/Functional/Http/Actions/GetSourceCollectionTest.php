@@ -6,12 +6,15 @@ use App\Contracts\ResourceRoutable;
 use App\Http\Resources\Source;
 
 /**
- * Class GetSourceTest
+ * Class GetSourceCollectionTest
  *
  * @package App\Tests\Functional\Http\Actions
  */
-class GetSourceTest extends GetResourceTestCase
+class GetSourceCollectionTest extends GetCollectionTestCase
 {
+    /**
+     * @return \App\Contracts\ResourceRoutable
+     */
     public function getResourceInstance(): ResourceRoutable
     {
         return new Source();

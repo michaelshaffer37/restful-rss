@@ -2,38 +2,13 @@
 
 namespace App\Tests\Functional\Http\Actions;
 
-use App\Contracts\ResourceRoutable;
-use App\Http\Resources\BaseResource;
-use App\Tests\TestCase;
-
 /**
  * Class GetResourceTestCase
  *
  * @package App\Tests\Functional\Http\Actions
  */
-abstract class GetResourceTestCase extends TestCase
+abstract class GetResourceTestCase extends ResourceTestCase
 {
-    /**
-     * Note this is a v4 uuid so it will never collide with real app data.
-     */
-    const NON_APP_UUID = 'a5a2fb8f-6b10-4148-b491-7c6b388b152e';
-
-    /**
-     * Clean Up after the tests.
-     */
-    public function tearDown()
-    {
-        $this->getResourceInstance()->destroy([static::NON_APP_UUID]);
-        parent::tearDown();
-    }
-
-    /**
-     * Get a new instance of the resource for tests.
-     *
-     * @return BaseResource
-     */
-    abstract public function getResourceInstance(): ResourceRoutable;
-
     /**
      * Request that asks for JSON should get json.
      *

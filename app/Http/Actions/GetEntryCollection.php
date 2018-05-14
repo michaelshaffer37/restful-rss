@@ -18,8 +18,8 @@ class GetEntryCollection extends Action
      * @var array
      */
     protected $rules = [
-        'search' => 'sometimes|required_without_all:date|alpha_dash',
-        'date' => 'sometimes|required_without_all:search|date_format:"Y-m-d"',
+        'search' => 'sometimes|regex:/^[\w\d- ]{3,}$/',
+        'date' => 'sometimes|date_format:"Y-m-d"',
     ];
 
     /**
@@ -31,7 +31,9 @@ class GetEntryCollection extends Action
      */
     protected function handle(Request $request)
     {
-        if ($request->has('search')) {
+        if($request->has(['search', 'date'])) {
+            abort(422);
+        } elseif ($request->has('search')) {
             return Entry::search($request->get('search'));
         } elseif ($request->has('date')) {
             $parts = date_parse($request->get('date'));

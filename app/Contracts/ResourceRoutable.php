@@ -19,6 +19,13 @@ interface ResourceRoutable extends UrlRoutable
     public function getRouteName(): string;
 
     /**
+     * Returns the name of the resource collection route.
+     *
+     * @return string
+     */
+    public function getCollectionName(): string;
+
+    /**
      * A getter for the resource uri built from the route, route key
      *
      * @return string

@@ -70,6 +70,16 @@ abstract class BaseResource extends Model implements ResourceRoutable
     }
 
     /**
+     * Get the route name that the resource collection is associated with.
+     *
+     * @return string
+     */
+    public function getCollectionName(): string
+    {
+        return Str::plural($this->getRouteName());
+    }
+
+    /**
      * Get the name of the key
      *
      * @return string
