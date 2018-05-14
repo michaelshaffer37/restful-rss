@@ -31,7 +31,7 @@ abstract class TestCase extends LumenTestCase
      *
      * @return $this
      */
-    protected function postJson(string $uri, array $data = [], array $headers = [])
+    public function postJson(string $uri, array $data = [], array $headers = [])
     {
         $headers = array_merge(
             $headers,
@@ -46,5 +46,16 @@ abstract class TestCase extends LumenTestCase
         $this->call('POST', $uri, [], [], [], $server, Json::encode($data));
 
         return $this;
+    }
+
+    /**
+     * Run a Get Request with Json Accept headers
+     *
+     * @param string $uri
+     * @param array  $headers
+     */
+    public function getJson(string $uri, array $headers = [])
+    {
+        $this->get($uri, array_merge($headers, ['Accept' => 'application/json']));
     }
 }
