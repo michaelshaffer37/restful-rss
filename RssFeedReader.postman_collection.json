@@ -163,6 +163,40 @@
 			"response": []
 		},
 		{
+			"name": "Rss Source Store Wired Photo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Wired Photo\",\n\t\"url\": \"https://www.wired.com/feed/category/photo/latest/rss\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/sources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"sources"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Rss Source Store NASA",
 			"request": {
 				"method": "POST",
@@ -388,7 +422,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8181/api/entries?search=science",
+					"raw": "http://localhost:8181/api/entries?search=physics%20echo",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -401,7 +435,7 @@
 					"query": [
 						{
 							"key": "search",
-							"value": "science",
+							"value": "physics%20echo",
 							"equals": true
 						}
 					]
