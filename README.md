@@ -15,6 +15,7 @@ These instructions were tested Linux but should be compatible with any Unix type
 
 * `docker`
 * `docker-compose`
+* Postman
 
 ### Configure Local Environment Configuration
 
@@ -43,6 +44,12 @@ Run the migrations which will configure the correct indices on the mongodb colle
 ```bash
 docker-compose exec app php artisan migrate
 ```
+
+### Send Requests to the App
+
+Import the `RssFeedReader.postman_collection.json` Postman request collection through the Postman GUI.
+
+To populate the application with data run any of the _Rss Source Store_ requests.
 
 ## Testing & Linting
 
