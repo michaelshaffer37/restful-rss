@@ -15,10 +15,11 @@ $factory->define(App\Http\Resources\Feed::class, function (Faker\Generator $fake
     return [
         '_id' => Ramsey\Uuid\Uuid::uuid4(),
         'name' => $faker->words(2, true),
+        'link' => $faker->url,
         'feed' => $faker->url,
         'title' => $faker->title,
         'description' => $faker->sentence,
-        'author' => [
+        'properties' => [
             'name' => "$faker->firstName, $faker->lastName",
             'username' => $faker->userName,
         ],
