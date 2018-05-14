@@ -18,8 +18,8 @@ class RequestLoadFeedTest extends TestCase
     {
         $source = Mockery::mock(Source::class);
 
-        $source->shouldReceive('updateStatus')->with(Source::QUEUED);
+        $event = new RequestLoadFeed($source);
 
-        new RequestLoadFeed($source);
+        $this->assertInstanceOf(Source::class, $event->source);
     }
 }

@@ -29,7 +29,6 @@ class CheckSourceSave
     {
         if ($sourceSaved->source->status === Source::REQUESTED) {
             event(new RequestLoadFeed($sourceSaved->source));
-            // dispatch(new LoadRssFeed($sourceSaved->source));
             $sourceSaved->source->updateStatus(Source::QUEUED);
         }
     }

@@ -3,7 +3,9 @@
 namespace App\Tests;
 
 use App\Support\Json;
+use Exception;
 use Laravel\Lumen\Testing\TestCase as LumenTestCase;
+use Mockery;
 
 /**
  * Class TestCase
@@ -58,4 +60,25 @@ abstract class TestCase extends LumenTestCase
     {
         $this->get($uri, array_merge($headers, ['Accept' => 'application/json']));
     }
+
+    /**
+     * Mock the event dispatcher so all events are errors.
+     *
+     * @return $this
+     */
+    protected function expectNoEvents()
+    {
+        $mock = Mockery::mock('Illuminate\Contracts\Events\Dispatcher');
+
+        $mock->shouldReceive('fire')->andReturnUsing(function ($called) {
+            throw new Exception(
+                'The following event was fired: ' . $called
+            );
+        });
+
+        $this->app->instance('events', $mock);
+
+        return $this;
+    }
+
 }

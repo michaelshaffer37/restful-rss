@@ -26,6 +26,5 @@ class RequestLoadFeed extends Event
     public function __construct(Source $source)
     {
         $this->source = $source;
-        $this->source->updateStatus(Source::QUEUED);
     }
 }
