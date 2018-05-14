@@ -108,7 +108,7 @@ This service operates in an asynchronously when handling requests to remote endp
 
 This project was built using Actions instead of the standard [Controllers](https://lumen.laravel.com/docs/5.6/controllers) found in the [Lumen Framework](https://lumen.laravel.com/).
 Although the distinction is minor these actions are singularly responsible.
-They are implemented to behave as if they were simple function through the use of the php magic method `__invoke`.
+They are implemented to behave as if they were simple functions through the use of the php magic method `__invoke`.
 
 #### worker
 
@@ -123,8 +123,8 @@ The mongodb service is used to store documents in four different collections.
 
 * `sources`: This collection maintains the status of the source being loaded, the user provided name, & the Rss feed `url`.
 * `feeds`: This collection stores information about the loaded Rss Feeds. (link, title, description, feed link etc.)
-* `entries`: This collection stores information about the loaded Rss Feed Entries. (link, title, description, feed link etc.)
-* `migrations`: This collection stores information about the migration files and which have been run.
+* `entries`: This collection stores information about the loaded Rss Feed Entries. (title, description, pubDate etc.)
+* `migrations`: This collection stores information about the migration files that have been run.
 
 #### queue
 
