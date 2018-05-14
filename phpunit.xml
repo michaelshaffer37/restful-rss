@@ -15,9 +15,6 @@
         <testsuite name="UT">
             <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
-        <testsuite name="IT">
-            <directory suffix="Test.php">tests/Integration</directory>
-        </testsuite>
         <testsuite name="FT">
             <directory suffix="Test.php">tests/Functional</directory>
         </testsuite>

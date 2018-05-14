@@ -58,13 +58,12 @@ docker-compose exec app composer test
 
 #### Specific Test Suite
 ```bash
-docker-compose exec app ./vendor/bin/phpunit --testsuite=<UT|IT|FT>
+docker-compose exec app ./vendor/bin/phpunit --testsuite=<UT|FT>
 ```
 
 **Test Suites**
 
 * UT: Unit Tests
-* IT: Integration Tests
 * FT: Functional Tests
 
 ### Linting
