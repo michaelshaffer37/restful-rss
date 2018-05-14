@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Traversable;
 
-class BaseResource extends Model
+abstract class BaseResource extends Model
 {
     /**
      * The type of key to type cast.
