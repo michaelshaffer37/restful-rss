@@ -60,7 +60,8 @@ class BaseResourceTest extends TestCase
         /**
          * @var BaseResource $mockResource
          */
-        $mockResource = new class() extends BaseResource {};
+        $mockResource = new class() extends BaseResource {
+        };
 
         $this->assertContains('_id', $mockResource->getHidden());
         $this->assertContains('updated_at', $mockResource->getHidden());
@@ -72,7 +73,8 @@ class BaseResourceTest extends TestCase
         /**
          * @var BaseResource $mockResource
          */
-        $mockResource = new class() extends BaseResource {};
+        $mockResource = new class() extends BaseResource {
+        };
 
         $this->assertSame('string', $mockResource->getKeyType());
     }

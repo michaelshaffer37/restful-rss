@@ -31,7 +31,7 @@ class GetEntryCollection extends Action
      */
     protected function handle(Request $request)
     {
-        if($request->has(['search', 'date'])) {
+        if ($request->has(['search', 'date'])) {
             abort(422);
         } elseif ($request->has('search')) {
             return Entry::search($request->get('search'));
