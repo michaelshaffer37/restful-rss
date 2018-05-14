@@ -6,7 +6,6 @@ use App\Events\RequestLoadFeed;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
 use App\Http\Resources\Source;
-use App\Jobs\LoadRssFeedJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Zend\Feed\Reader\Reader;
 
@@ -78,7 +77,7 @@ class LoadRssFeed implements ShouldQueue
      * Handle a job failure.
      *
      * @param  \App\Events\RequestLoadFeed $event
-     * @param  \Exception           $exception
+     * @param  \Exception                  $exception
      *
      * @return void
      */
