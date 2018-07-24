@@ -16,6 +16,8 @@ class AddSourceTest extends TestCase
     {
         $this->withoutEvents();
 
+        Source::destroy(['5c870759-2fc9-5225-83bf-ba3d81767101']);
+
         $this->postJson(
             '/api/sources',
             [
@@ -24,13 +26,13 @@ class AddSourceTest extends TestCase
             ]
         );
 
-        $this->assertResponseStatus(200);
+        $this->assertResponseStatus(201);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             [
                 'name' => 'Test Feed',
                 'url' => 'https://www.wired.com/feed/category/science/latest/rss',
-                'status' => 'QUEUED',
                 'uri' => 'http://localhost:8181/api/sources/5c870759-2fc9-5225-83bf-ba3d81767101',
             ]
         );
@@ -48,6 +50,7 @@ class AddSourceTest extends TestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['msg' => 'Unprocessable Entity']
@@ -64,6 +67,7 @@ class AddSourceTest extends TestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['msg' => 'Unprocessable Entity']
@@ -83,6 +87,7 @@ class AddSourceTest extends TestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['msg' => 'Unprocessable Entity']
@@ -102,6 +107,7 @@ class AddSourceTest extends TestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['msg' => 'Unprocessable Entity']
@@ -121,6 +127,7 @@ class AddSourceTest extends TestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['msg' => 'Unprocessable Entity']

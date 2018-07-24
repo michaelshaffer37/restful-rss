@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\Loader;
 use App\Http\Resources\Source;
 
 /**
@@ -16,15 +17,15 @@ class RequestLoadFeed extends Event
      *
      * @var Source
      */
-    public $source;
+    public $loader;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Source $source)
+    public function __construct(Loader $loader)
     {
-        $this->source = $source;
+        $this->loader = $loader;
     }
 }

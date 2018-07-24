@@ -15,6 +15,13 @@ use Mockery;
 abstract class TestCase extends LumenTestCase
 {
     /**
+     * The Connections to initiate transactions for
+     */
+    protected $connectionsToTransact = [
+        'mongodb',
+    ];
+
+    /**
      * Creates the application.
      *
      * @return \Laravel\Lumen\Application
@@ -79,5 +86,18 @@ abstract class TestCase extends LumenTestCase
         $this->app->instance('events', $mock);
 
         return $this;
+    }
+
+    /**
+     * An Assertions of the response headers
+     *
+     * @return void
+     */
+    protected function assertHasHeaders($header, $value = null)
+    {
+        $this->assertTrue($this->response->headers->has($header));
+        if (! is_null($value)) {
+            $this->assertEquals($value, $this->response->headers->get($header));
+        }
     }
 }

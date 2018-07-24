@@ -24,8 +24,5 @@ class EventServiceProvider extends ServiceProvider
         RequestLoadFeed::class => [
             LoadRssFeed::class,
         ],
-        SourceSaved::class => [
-            CheckSourceSave::class,
-        ],
     ];
 }

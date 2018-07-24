@@ -25,6 +25,7 @@ class IndexActionTest extends TestCase
         $this->receiveJson(
             ['version' => $this->app->version()]
         );
+        $this->assertHasHeaders('Content-Type', 'application/json');
     }
 
     /**
@@ -37,6 +38,7 @@ class IndexActionTest extends TestCase
         $this->post('/', [], ['Accept' => 'application/json']);
 
         $this->receiveJson();
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->assertTrue(
             $this->response->isClientError()
@@ -57,5 +59,6 @@ class IndexActionTest extends TestCase
         );
 
         $this->receiveJson();
+        $this->assertHasHeaders('Content-Type', 'application/json');
     }
 }

@@ -24,6 +24,8 @@ class Routing
             $router->post('sources', \App\Http\Actions\AddSource::class);
             $router->get('sources', ['as' => 'sources', 'uses' => \App\Http\Actions\GetSourceCollection::class]);
             $router->get('sources/{id}', ['as' => 'source', 'uses' => \App\Http\Actions\GetSource::class]);
+            $router->post('sources/{source}/load', ['uses' => \App\Http\Actions\LoadSource::class]);
+            $router->get('sources/{source}/load/{id}', ['as' => 'loader', 'uses' => \App\Http\Actions\GetSource::class]);
 
             $router->get('feeds', ['as' => 'feeds', 'uses' => \App\Http\Actions\GetFeedCollection::class]);
             $router->get('feeds/{id}', ['as' => 'feed', 'uses' => \App\Http\Actions\GetFeed::class]);

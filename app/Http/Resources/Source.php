@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Events\SourceSaved;
-
 /**
  * Class Source
  *
@@ -12,32 +10,23 @@ use App\Events\SourceSaved;
 class Source extends BaseResource
 {
     /**
-     * Source Status Constants
-     */
-    const REQUESTED = 'REQUESTED';
-    const QUEUED = 'QUEUED';
-    const PROCESSING = 'PROCESSING';
-    const LOADED = 'LOADED';
-    const FAILED = 'FAILED';
-
-    /**
-     * Register the LoadFeed event to trigger every time we save the model.
-     *
-     * @var array
-     */
-    protected $dispatchesEvents = [
-        'saved' => SourceSaved::class
-    ];
-
-    /**
      * @var array
      */
     protected $fillable = [
         '_id',
         'url',
         'name',
-        'feed',
     ];
+
+    /**
+     * Defines the relation between Sources & Loaders
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function loaders()
+    {
+        return $this->hasMany(Loader::class);
+    }
 
     /**
      * Updates the Source Status to one of the status states.

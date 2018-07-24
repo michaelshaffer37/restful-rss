@@ -37,6 +37,7 @@ abstract class GetCollectionTestCase extends ResourceTestCase
     public function assertSuccessfulCollectionRequest()
     {
         $this->assertResponseStatus(200);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson();
 

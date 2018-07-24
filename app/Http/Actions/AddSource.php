@@ -23,21 +23,6 @@ class AddSource extends Action
     ];
 
     /**
-     * @var Source
-     */
-    protected $source;
-
-    /**
-     * AddSource constructor.
-     *
-     * @param Source $source
-     */
-    public function __construct(Source $source)
-    {
-        $this->source = $source;
-    }
-
-    /**
      * Create the Source
      *
      * @param Request $request
@@ -49,7 +34,7 @@ class AddSource extends Action
         /**
          * @var Source $source
          */
-        $source = $this->source->updateOrCreate(
+        $source = Source::updateOrCreate(
             ['url' => $request->get('url')],
             [
                 '_id' => app_uuid($request->get('url')),
@@ -57,10 +42,10 @@ class AddSource extends Action
             ]
         );
 
-        if (!isset($source->status) || in_array($source->status, [Source::FAILED, Source::LOADED])) {
-            $source->updateStatus(Source::REQUESTED);
+        if ($source->wasRecentlyCreated) {
+            return response()->json($source, 201);
+        } else {
+            return response()->json($source);
         }
-
-        return $source;
     }
 }

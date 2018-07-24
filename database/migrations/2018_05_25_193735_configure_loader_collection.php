@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Jenssegers\Mongodb\Schema\Blueprint;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ConfigureSourceCollection extends Migration
+class ConfigureLoaderCollection extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class ConfigureSourceCollection extends Migration
      */
     public function up()
     {
-        Schema::table('sources', function (Blueprint $collection) {
-            $collection->unique('url');
+        Schema::table('loaders', function (Blueprint $collection) {
+            $collection->index('source_id');
         });
     }
 
@@ -25,6 +25,6 @@ class ConfigureSourceCollection extends Migration
      */
     public function down()
     {
-        Schema::drop('sources');
+        Schema::drop('loaders');
     }
 }

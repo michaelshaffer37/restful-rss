@@ -25,6 +25,7 @@ abstract class GetResourceTestCase extends ResourceTestCase
         );
 
         $this->assertResponseStatus(404);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['msg' => 'Not Found']
@@ -59,6 +60,7 @@ abstract class GetResourceTestCase extends ResourceTestCase
         $this->getJson($uri);
 
         $this->assertResponseStatus(200);
+        $this->assertHasHeaders('Content-Type', 'application/json');
 
         $this->receiveJson(
             ['uri' => $uri]

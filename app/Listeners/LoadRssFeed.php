@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\RequestLoadFeed;
 use App\Http\Resources\Entry;
 use App\Http\Resources\Feed;
-use App\Http\Resources\Source;
+use App\Http\Resources\Loader;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Zend\Feed\Reader\Reader;
 
@@ -25,14 +25,14 @@ class LoadRssFeed implements ShouldQueue
      */
     public function handle(RequestLoadFeed $event)
     {
-        $event->source->updateStatus(Source::PROCESSING);
+        $event->loader->updateStatus(Loader::PROCESSING);
         /**
          * Load the Source Url as an RSS Feed.
          */
-        $channel = Reader::import($event->source->url);
+        $channel = Reader::import($event->loader->source->url);
 
         /**
-         *  Store the information about the RSS Feed to the DB.
+         * Store the information about the RSS Feed to the DB.
          *
          * @var Feed $feed
          */
@@ -72,7 +72,7 @@ class LoadRssFeed implements ShouldQueue
             );
         }
 
-        $event->source->updateStatus(Source::LOADED, ['feed' => $feed->uri]);
+        $event->loader->updateStatus(Loader::LOADED, ['feed' => $feed->uri]);
     }
 
     /**
@@ -85,6 +85,6 @@ class LoadRssFeed implements ShouldQueue
      */
     public function failed(RequestLoadFeed $event, $exception)
     {
-        $event->source->updateStatus(Source::FAILED);
+        $event->loader->updateStatus(Loader::FAILED);
     }
 }

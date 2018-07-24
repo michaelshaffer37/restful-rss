@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Events;
 
 use App\Events\RequestLoadFeed;
+use App\Http\Resources\Loader;
 use App\Http\Resources\Source;
 use Mockery;
 use App\Tests\TestCase;
@@ -16,10 +17,10 @@ class RequestLoadFeedTest extends TestCase
 {
     public function testUpdateStatus()
     {
-        $source = Mockery::mock(Source::class);
+        $source = Mockery::mock(Loader::class);
 
         $event = new RequestLoadFeed($source);
 
-        $this->assertInstanceOf(Source::class, $event->source);
+        $this->assertInstanceOf(Loader::class, $event->loader);
     }
 }

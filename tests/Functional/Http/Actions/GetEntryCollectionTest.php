@@ -51,6 +51,7 @@ class GetEntryCollectionTest extends GetCollectionTestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
         $this->receiveJson();
     }
 
@@ -63,6 +64,7 @@ class GetEntryCollectionTest extends GetCollectionTestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
         $this->receiveJson();
     }
 
@@ -75,6 +77,7 @@ class GetEntryCollectionTest extends GetCollectionTestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
         $this->receiveJson();
     }
 
@@ -87,6 +90,7 @@ class GetEntryCollectionTest extends GetCollectionTestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
         $this->receiveJson();
     }
 
@@ -99,6 +103,7 @@ class GetEntryCollectionTest extends GetCollectionTestCase
         );
 
         $this->assertResponseStatus(422);
+        $this->assertHasHeaders('Content-Type', 'application/json');
         $this->receiveJson();
     }
 }
